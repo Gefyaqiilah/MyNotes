@@ -1,9 +1,11 @@
 import React from 'react'
+import HomeComponent from '../../components/module/home/Home'
 function Home (props) {
   return (
-    <div>
-      <h1>Halo guys</h1>
+    <div className="bg min-height">
+      <HomeComponent/>
     </div>
   )
+
 }
-export default Home
+export default Home 

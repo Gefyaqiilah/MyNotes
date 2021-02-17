@@ -1,0 +1,26 @@
+/* #home {
+  padding:30px 0 0 0 ;
+  width:100%;
+} */
+/* * {
+  border:1px solid red;
+} */
+
+.title {
+  text-align:center;
+}
+.border-bottom {
+  border:none !important;
+  border-radius:0px;
+  border-bottom:1px solid #FFFFFF !important;
+}
+.form {
+  width:400px;
+}
+* {
+  border:1px solid red;
+}
+.list-notes {
+  width:400px;
+  background-color:pink;
+}
