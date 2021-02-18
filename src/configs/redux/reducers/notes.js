@@ -7,6 +7,8 @@ function notes (state = initializeState, action) {
     case 'ADD_NOTES': return {
       ...state
     }
+    case 'ALERT' : return alert(action.payload)
+
     default: return state
   }}
 
