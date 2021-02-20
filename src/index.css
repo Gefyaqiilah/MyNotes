@@ -18,3 +18,9 @@ body {
 .color-orange {
   color:#FFC83D !important;
 }
+.text-line-trough {
+  text-decoration: line-through !important;
+}
+.color-gray {
+  color:rgb(121, 116, 116);
+}

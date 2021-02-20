@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {db} from '../../../configs/firebase/firebase-config'
 import firebase from 'firebase'
-import { addToDo, getToDo } from '../../../configs/redux/actions/index'
+import { addToDo, getToDo, updateToDo, deleteToDo } from '../../../configs/redux/actions/index'
 
 function Home () {
   const dispatch = useDispatch()
@@ -29,10 +29,25 @@ function Home () {
       dispatch(addToDo(data))
     }
   } 
+  const handleUpdateToDo = async (data) => {
+    try {
+      await dispatch(updateToDo(data))
+      await dispatch(getToDo())
+    } catch (error) {
+      alert('error')
+    }
+  }
   
+  const handleDeleteToDo = async (id) => {
+    try {
+      await dispatch(deleteToDo(id))
+      await dispatch(getToDo())
+    } catch (error) {
+      alert('error')
+    }
+  }
   useEffect(()=> {
-    // dispatch(getToDo())
-    // console.log('toDoState :>> ', toDoState.todo.length);
+    dispatch(getToDo())
   }, [])
 
   return (
@@ -46,22 +61,19 @@ function Home () {
       </form>
       <div className="list-notes mx-auto">
         {toDoState.todo.map(el=> {
-          return <div className="note"> 
-                  <h4 className="color-white">{el.id}</h4>
-                  <p className="color-white">{el.id}</p>
-                 </div>
+          return <div className="note d-flex justify-content-between" key={el.id}> 
+            <div className="desc">
+              <h4 className={!el.data.onProgress ? 'text-line-trough color-gray': 'color-white' }>{el.data.todo}</h4>
+              <p className={!el.data.onProgress ? 'color-gray': 'color-white'}>{el.data.onProgress ? 'On Progress' : 'Done'}</p>
+            </div>
+            <div className="action d-flex justify-content-between align-items-center">
+              <h4  className={!el.data.onProgress ? 'text-line-trough color-gray': 'color-white' } onClick={() => handleUpdateToDo({ id: el.id, onProgress: el.data.onProgress })}>DONE</h4>
+              <i className={!el.data.onProgress ? 'fa fa-check color-gray' : 'fa fa-trash color-white'} onClick={()=> handleDeleteToDo(el.id)}></i>
+            </div>
+        </div>
         })
         }
-        <div className="note d-flex justify-content-between"> 
-          <div className="desc">
-            <h4 className="color-white">mau ke wc</h4>
-            <p className="color-white">on Progress</p>
-          </div>
-          <div className="action d-flex justify-content-round">
-            <h4 className="color-white">DONE</h4>
-            <i className="fa fa-trash color-white"></i>
-          </div>
-        </div>
+
       </div>
     </div>
   ) 

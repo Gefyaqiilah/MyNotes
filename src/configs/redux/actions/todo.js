@@ -28,3 +28,39 @@ export const getToDo = () => {
     }
   }
 }
+
+export const updateToDo = (payload) => {
+  return async dispatch => {
+    try {
+      await db.collection('todolist').doc(payload.id).update({
+        onProgress: payload.onProgress? false : true
+      })
+      return alert('success')
+    } catch (error) {
+      return alert('Looks like server having trouble')
+    }
+  }
+}
+
+export const deleteToDo = (id) => {
+  return async dispatch => {
+    try {
+      await db.collection('todolist').doc(id).delete()
+    } catch (error) {
+      return alert('Looks like server havng trouble')
+    }
+  }
+}
+
+export const getRealTimeData = () => {
+  return dispatch => {
+    const doc = db.collection('cities').doc('SF');
+
+const observer = doc.onSnapshot(docSnapshot => {
+  console.log(`Received doc snapshot: ${docSnapshot}`);
+  // ...
+}, err => {
+  console.log(`Encountered error: ${err}`);
+});
+  }
+}
