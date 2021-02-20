@@ -17,10 +17,10 @@
 .form {
   width:400px;
 }
-* {
+/* * {
   border:1px solid red;
-}
+} */
 .list-notes {
   width:400px;
-  background-color:pink;
+  /* background-color:pink; */
 }

@@ -1,26 +1,30 @@
 import {db} from '../../firebase/firebase-config'
 
-export const addToDo2= async (data) => {
-  return (dispatch) => {
-    const toDo = db.collection("todolist").add(data)
-    function onSuccess (success) {
-      dispatch({ type: 'ALERT', payload: 'berhasil menambahkan todo' })
-      return success
+export const addToDo = (data) =>{
+    return async dispatch => {
+      try {
+        await db.collection("todolist").add(data)
+        alert('berhasil')
+      } catch (error) {
+        return alert('failed')
+      }
     }
-    toDo.then(res => {
-      onSuccess(res)
-    }) 
-    .catch(err =>{
-      console.log(err)
-    })
-  }
 }
-export const addToDo = async (data) => (dispatch) => {
-    const toDo = db.collection("todolist").add(data)
-    toDo.then(res => {
-      alert('buatin')
-    }) 
-    .catch(err =>{
-      console.log(err)
-    })
+
+export const getToDo = () => {
+  return async dispatch => {
+    try {
+      const toDo = db.collection('todolist')
+      const doc = await toDo.get();
+
+      const data = []
+      doc.forEach(doc => {
+        data.push({ id: doc.id, data: doc.data() })
+      })
+      dispatch({type: 'SET_TODO', payload: data})
+    } catch (error) {
+      console.log('error :>> ', error);
+      return alert('server error')
+    }
+  }
 }

@@ -1,9 +1,9 @@
 import './home.scoped.css'
 import React, {useState, useEffect} from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {db} from '../../../configs/firebase/firebase-config'
 import firebase from 'firebase'
-import { addToDo } from '../../../configs/redux/actions/index'
+import { addToDo, getToDo } from '../../../configs/redux/actions/index'
 
 function Home () {
   const dispatch = useDispatch()
@@ -11,7 +11,7 @@ function Home () {
     input: { title: 'awd' }
   }
   const [input, setInput] = useState(initialInput.input)
-
+  const toDoState = useSelector((state) => state.todo)
   const onChange = (e) => {
     switch(e.target.name) {
       case 'text-title': return setInput({...input, title: e.target.value})
@@ -28,21 +28,12 @@ function Home () {
       }
       dispatch(addToDo(data))
     }
-  }  
-  const getToDo = async () => {
-    try {
-      const doc = await db.collection('todolist').get()
-      if (!doc.exists) {
-        alert('Item does not exist')
-      } else {
-        console.log('Document data:', doc.data());
-      }
-    } catch (error) {
-      alert('Looks like server having trouble')
-    }
-  }
+  } 
   
-
+  useEffect(()=> {
+    // dispatch(getToDo())
+    // console.log('toDoState :>> ', toDoState.todo.length);
+  }, [])
 
   return (
     <div className="container pt-5">
@@ -54,9 +45,22 @@ function Home () {
         </div>
       </form>
       <div className="list-notes mx-auto">
-        <div className="note"> 
-          <h4 className="color-white">halo</h4>
-          <p className="color-white">awdawdawd</p>
+        {toDoState.todo.map(el=> {
+          return <div className="note"> 
+                  <h4 className="color-white">{el.id}</h4>
+                  <p className="color-white">{el.id}</p>
+                 </div>
+        })
+        }
+        <div className="note d-flex justify-content-between"> 
+          <div className="desc">
+            <h4 className="color-white">mau ke wc</h4>
+            <p className="color-white">on Progress</p>
+          </div>
+          <div className="action d-flex justify-content-round">
+            <h4 className="color-white">DONE</h4>
+            <i className="fa fa-trash color-white"></i>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import notes from './notes'
+import todo from './todo'
 
-const rootReducer = combineReducers({ notes: notes })
+const rootReducer = combineReducers({ todo })
 
 export default rootReducer
